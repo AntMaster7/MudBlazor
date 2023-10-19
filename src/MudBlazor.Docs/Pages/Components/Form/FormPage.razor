@@ -74,6 +74,20 @@
         </DocsPageSection>
 
         <DocsPageSection>
+            <SectionHeader Title="Validation using a validator component">
+                <Description>
+                    <MudLink Typo="Typo.body1" Href="https://learn.microsoft.com/en-us/aspnet/core/blazor/forms-and-input-components?view=aspnetcore-7.0#validator-components">Validator components</MudLink> are
+                    Blazors default way of implementing form validation. The validator component has to be placed inside an <CodeInline>EditForm</CodeInline> or a <CodeInline>MudForm</CodeInline>.
+                    It then attaches itself to the forms cascading <MudLink Typo="Typo.body1" Href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.editcontext">EditContext</MudLink>
+                    and handles the forms validation. Validator components do allow for more complex validation scenarios like client validation followed by server validation.
+                </Description>
+            </SectionHeader>
+            <SectionContent DarkenBackground="true" ShowCode="false" Code="ValidatorComponentExample">
+                <ValidatorComponentExample />
+            </SectionContent>
+        </DocsPageSection>
+
+        <DocsPageSection>
             <SectionHeader Title="Automatically set Labels">
                 <Description>
                     A form field <CodeInline>Label</CodeInline> can be set automatically by adding a <CodeInline>[Label]</CodeInline> attribute to the relevant property on the model class. The <CodeInline>For</CodeInline> property must also be set. An automatic label can be overriden by setting the <CodeInline>Label</CodeInline> property manually on the component.
