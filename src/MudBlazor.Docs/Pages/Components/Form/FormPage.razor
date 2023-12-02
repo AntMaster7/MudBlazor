@@ -74,15 +74,15 @@
         </DocsPageSection>
 
         <DocsPageSection>
-            <SectionHeader Title="Validation using a validator component">
+            <SectionHeader Title="Using a Validator Component">
                 <Description>
                     <MudLink Typo="Typo.body1" Href="https://learn.microsoft.com/en-us/aspnet/core/blazor/forms-and-input-components?view=aspnetcore-7.0#validator-components">Validator components</MudLink> are
                     Blazors default way of implementing form validation. The validator component has to be placed inside an <CodeInline>EditForm</CodeInline> or a <CodeInline>MudForm</CodeInline>.
                     It then attaches itself to the forms cascading <MudLink Typo="Typo.body1" Href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.components.forms.editcontext">EditContext</MudLink>
-                    and handles the forms validation. Validator components do allow for more complex validation scenarios like client validation followed by server validation.
+                    and handles the form validation. Validator components do allow for more complex validation scenarios like client validation followed by server validation.
                 </Description>
             </SectionHeader>
-            <SectionContent DarkenBackground="true" ShowCode="false" Code="ValidatorComponentExample">
+            <SectionContent DarkenBackground="true" ShowCode="false" Codes="@(new[] { new CodeFile("Form.razor", "ValidatorComponentExample"), new CodeFile("Validator.razor", "ValidatorComponentExample_Validator") })">
                 <ValidatorComponentExample />
             </SectionContent>
         </DocsPageSection>

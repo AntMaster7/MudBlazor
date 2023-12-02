@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using MudBlazor.Interfaces;
 using MudBlazor.Utilities;
 
@@ -103,6 +104,10 @@ namespace MudBlazor
         [Category(CategoryTypes.Form.Behavior)]
         public bool SuppressImplicitSubmission { get; set; } = true;
 
+        [Parameter]
+        [Category(CategoryTypes.Form.Behavior)]
+        public bool DisableDefaultValidation { get; set; }
+
         /// <summary>
         /// Raised when IsValid changes.
         /// </summary>
@@ -171,6 +176,8 @@ namespace MudBlazor
         private HashSet<MudForm> ChildForms { get; set; } = new HashSet<MudForm>();
 
         [CascadingParameter] private MudForm ParentMudForm { get; set; }
+
+        private EditContext EditContext { get; set; }
 
         void IForm.FieldChanged(IFormComponent formControl, object newValue)
         {
@@ -360,6 +367,11 @@ namespace MudBlazor
             if (ParentMudForm != null)
             {
                 ParentMudForm.ChildForms.Add(this);
+            }
+
+            if(Model != null)
+            {
+                EditContext = new EditContext(Model);
             }
 
             base.OnInitialized();

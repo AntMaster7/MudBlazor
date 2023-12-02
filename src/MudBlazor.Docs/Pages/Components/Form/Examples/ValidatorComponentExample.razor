@@ -1,7 +1,75 @@
-﻿@namespace MudBlazor.Docs.Examples
+﻿@using System.ComponentModel.DataAnnotations
+@using MudBlazor.Docs.Examples.ValidatorComponent
 
-<h3>ValidatorComponentExample</h3>
+@namespace MudBlazor.Docs.Examples
+
+@inject ISnackbar Snackbar
+
+<MudCard>
+    <MudCardContent>
+        <MudForm Model="@model" DisableDefaultValidation>
+
+            <CustomValidator @ref="validator" />
+            
+            <MudTextField Label="Username" HelperText="Must be unique"
+            @bind-Value="model.Username" For="@(() => model.Username)" />
+            <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+            @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
+            <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
+            @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+        </MudForm>
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await Submit())">Register</MudButton>
+    </MudCardActions>
+</MudCard>
 
 @code {
+    RegisterAccountForm model = new RegisterAccountForm();
+    CustomValidator validator;
 
+    class RegisterAccountForm
+    {
+        [Required]
+        [StringLength(8, ErrorMessage = "Name length can't be more than 8.")]
+        public string Username { get; set; }
+
+        [Required]
+        [StringLength(30, ErrorMessage = "Password must be at least 8 characters long.", MinimumLength = 8)]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare(nameof(Password), ErrorMessage = "Passwords don't match")]
+        public string Password2 { get; set; }
+    }
+
+    private async Task Submit()
+    {
+        var validationResult = await ValidateOnServer();
+
+        if (validator.Validate(validationResult))
+            Snackbar.Add("Submitted!", Severity.Success);
+        else
+            Snackbar.Add("Check your form input", Severity.Error);
+    }
+
+    
+
+    private async Task<List<ServerValidationError>> ValidateOnServer()
+    {
+        await Task.Delay(100);
+
+        List<ServerValidationError> errors = new List<ServerValidationError>();
+
+        if (string.IsNullOrWhiteSpace(model.Password))
+            errors.Add(new ServerValidationError(nameof(model.Password), "Password is required!"));
+        else if (model.Password.Length < 8)
+            errors.Add(new ServerValidationError(nameof(model.Password), "Password must be at least of length 8"));
+        if (model.Password != model.Password2)
+            errors.Add(new ServerValidationError(nameof(model.Password2), "Passwords don't match"));
+        if (model.Username == "John" || model.Username == "Doe")
+            errors.Add(new ServerValidationError(nameof(model.Username), "Username is already taken"));
+
+        return errors;
+    }
 }

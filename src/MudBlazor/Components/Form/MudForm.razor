@@ -12,7 +12,9 @@
     <CascadingValue Value="this" IsFixed="true">
         <CascadingValue Value="GetDisabledState()" Name="ParentDisabled">
             <CascadingValue Value="GetReadOnlyState()" Name="ParentReadOnly">
-                @ChildContent
+                <CascadingValue Value="EditContext" IsFixed="true">
+                    @ChildContent
+                </CascadingValue>
             </CascadingValue>
         </CascadingValue>
     </CascadingValue>
